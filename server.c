@@ -1,17 +1,30 @@
 #include "minitalk.h"
 
-static void close_server(int sig)
+static void	get_data(int sig)
 {
-    (void)sig;
-    ft_printf("\nServer is closed\n");
-    exit(0);
+	static t_word	*t;
+
+	if (sig == SIGUSR1)
+		pb(&t, 1);
+	else if (sig == SIGUSR2)
+		pb(&t, 0);
+	ft_printf("%d\n", ft_size(t));
 }
 
-int main(int argc, char **argv)
+static void	close_server(int sig)
 {
-    ft_printf("PID: %d\n", getpid());
-    ft_printf("signal is %d\n", SIGINT);
-    signal(SIGINT, close_server);
-    while (1)
-        pause();
+	(void)sig;
+	ft_printf("\nServer is closed\n");
+	exit(0);
+}
+
+int	main(void)
+{
+	ft_printf("PID: %d\n", getpid());
+	signal(SIGINT, close_server);
+	signal(SIGKILL, close_server);
+	signal(SIGUSR1, get_data);
+	signal(SIGUSR2, get_data);
+	while (1)
+		usleep(500);
 }
