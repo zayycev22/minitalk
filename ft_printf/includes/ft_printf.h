@@ -20,5 +20,4 @@ int		printnb(char desc, va_list ap);
 int		ft_string(char *c);
 int		ft_char(char c);
 int		ft_pointer(unsigned long num);
-int	    ft_atoi(const char *str);
 #endif
