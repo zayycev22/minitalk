@@ -1,4 +1,5 @@
 #include "minitalk.h"
+#include "ft_printf/includes/ft_printf.h"
 
 t_word	*new(int sig)
 {
@@ -18,6 +19,7 @@ void	pb(t_word **word, int sig)
 	t_word	*tmp;
 	int		prev;
 
+	//ft_printf("pbsig = %d\n", sig);
 	if (!(*word))
 	{
 		*word = new(sig);
@@ -34,7 +36,7 @@ void	pb(t_word **word, int sig)
 		}
 		tmp->next = (struct t_word *)new(sig);
 		tmp = (t_word *) tmp->next;
-		tmp->pw = prev++;
+		tmp->pw = prev + 1;
 	}
 }
 
@@ -46,7 +48,29 @@ int	ft_size(t_word *w)
 	while (w)
 	{
 		n++;
-		w = w->next;
+		w = (t_word *) w->next;
 	}
 	return (n);
+}
+
+void	get_d(t_word *a)
+{
+	char	*c;
+	int		size;
+	int		i;
+
+	size = ft_size(a);
+	i = 0;
+	c = NULL;
+	while (i < size)
+	{
+		if (a->sig)
+			c = ft_strjoin(c, "1");
+		else
+			c = ft_strjoin(c, "0");
+		i++;
+		a = (t_word *) a->next;
+	}
+	//ft_printf("norm stack rev = %s\n", c);
+	free(c);
 }

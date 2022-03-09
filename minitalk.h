@@ -19,4 +19,7 @@ typedef struct s_word
 void	pb(t_word **word, int sig);
 t_word	*new(int sig);
 int		ft_size(t_word *w);
+void	get_d(t_word *a);
+void	ft_cls_stack(t_word **lst);
+void	ft_delone(t_word *lst);
 #endif
