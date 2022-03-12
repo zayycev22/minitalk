@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larobbie <larobbie@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 19:59:01 by larobbie          #+#    #+#             */
+/*   Updated: 2022/03/12 19:59:01 by larobbie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 #include "ft_printf/includes/ft_printf.h"
 
@@ -10,83 +22,52 @@ static int	pow(int pw)
 	number = 2;
 	while (pw > 1)
 	{
-		//ft_printf("number = %d, pw = %d\n", number, pw);
 		number *= 2;
 		pw--;
 	}
 	return (number);
 }
 
-static int	improve_data(t_word	*t, int size)
+static	char	translate(const char *c)
 {
-	int	*mass;
+	int	number;
 	int	i;
-	int	ans;
 
-	mass = (int *) malloc(sizeof(int) * size);
+	number = 0;
 	i = 0;
-	ans = 0;
-	while (i < size && t->next != NULL)
+	while (c[i])
 	{
-		mass[i] = t->sig;
-		//ft_printf("sig %d\n", t->sig);
-		i++;
-		t = (t_word *) t->next;
-	}
-	i = 0;
-	while (i < size)
-	{
-		if (mass[i])
-		{
-			//ft_printf("index = %d\n", i);
-			//ft_printf("pow = %d\n", pow(i));
-			ans += pow(i);
-		}
+		if (c[i] == '1')
+			number += pow(i);
 		i++;
 	}
-	free(mass);
-	ft_printf("answer = %d\n", ans);
-	return (ans);
+	return ((char)number);
 }
 
 static void	get_data(int sig)
 {
 	static t_word	*t;
+	static char		*c;
 
 	if (sig == SIGUSR1)
 	{
-		pb(&t, 1);
-		//ft_printf("OK1\n");
+		c = ft_strjoin(c, "1");
 	}
 	else if (sig == SIGUSR2)
 	{
-		pb(&t, 0);
-		//ft_printf("OK2\n");
+		c = ft_strjoin(c, "0");
 	}
-	//ft_printf("tmp lst size = %d\n", ft_size(t));
-	if (ft_size(t) == 8)
+	if (ft_strlen(c) >= 8)
 	{
-		//ft_printf("OK\n");
-		//ft_printf("size of list %d\n", ft_size(t));
-		get_d(t);
-		ft_printf("%c", improve_data(t, ft_size(t)));
-		ft_cls_stack(&t);
-		//ft_printf("size after clean %d\n", ft_size(t));
+		ft_printf("%c", translate(c));
+		free(c);
+		c = NULL;
 	}
-}
-
-static void	close_server(int sig)
-{
-	(void)sig;
-	ft_printf("\nServer is closed\n");
-	exit(0);
 }
 
 int	main(void)
 {
 	ft_printf("PID: %d\n", getpid());
-	signal(SIGINT, close_server);
-	signal(SIGKILL, close_server);
 	signal(SIGUSR1, get_data);
 	signal(SIGUSR2, get_data);
 	while (1)
