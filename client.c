@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larobbie <larobbie@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 19:58:20 by larobbie          #+#    #+#             */
+/*   Updated: 2022/03/12 19:58:22 by larobbie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 #include "ft_printf/libft/libft.h"
 
@@ -12,20 +24,20 @@ static void	send_text(int pid, int message)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		ft_printf("OK %d\n", message % 2);
 		message /= 2;
 		usleep(30);
 		i++;
 	}
 	if (i < 8)
 	{
-		while (i <= 8)
+		while (i < 8)
 		{
 			kill(pid, SIGUSR2);
+			usleep(30);
 			i++;
 		}
 	}
-	usleep(1600);
+	usleep(400);
 }
 
 static void	send_text2(int pid)
@@ -52,10 +64,8 @@ int	main(int argc, char **argv)
 		while (argv[2][i])
 		{
 			send_text(pid, argv[2][i]);
-			ft_printf("\n");
 			i++;
 		}
-		//send_text2(pid);
 	}
 	else
 		exit(-1);
