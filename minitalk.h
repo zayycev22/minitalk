@@ -1,25 +1,21 @@
-//
-// Created by zayycev22 on 02.03.2022.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larobbie <larobbie@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 19:58:56 by larobbie          #+#    #+#             */
+/*   Updated: 2022/03/12 19:58:57 by larobbie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINITALK_H
-#define MINITALK_H
+# define MINITALK_H
 # include "ft_printf/includes/ft_printf.h"
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
 # include <stdlib.h>
 
-typedef struct s_word
-{
-	int				sig;
-	int				pw;
-	struct t_word	*next;
-}	t_word;
-void	pb(t_word **word, int sig);
-t_word	*new(int sig);
-int		ft_size(t_word *w);
-void	get_d(t_word *a);
-void	ft_cls_stack(t_word **lst);
-void	ft_delone(t_word *lst);
 #endif
